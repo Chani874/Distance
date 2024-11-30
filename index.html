@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablet Background with Circle</title>
+    <!-- קישור לפונט Glegoo ו-Rubik מ-Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Glegoo&family=Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="tablet-container">
+        <div class="circle-wrapper">
+            <div class="outer-circle">
+                <div class="inner-circle">
+                    <div class="wifi-icon" id="wifiIcon"></div>
+                    <div class="lines">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="middle-line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- קובץ אודיו לצפצוף -->
+    <audio id="beepSound" src="beep.mp3"></audio>
+
+    <script>
+        // קבלת אלמנט ה-Wifi Icon
+        const wifiIcon = document.getElementById("wifiIcon");
+        // קבלת אלמנטים נוספים - הפסים והמספר 0.1
+        const lines = document.querySelector(".lines");
+        const innerCircle = document.querySelector(".inner-circle");
+        const outerCircle = document.querySelector(".outer-circle");
+
+        // קבלת אלמנט הצליל
+        const beepSound = document.getElementById("beepSound");
+
+        // יצירת אלמנט הטקסט "זוהה מרחק אסיר מחוץ לטווח השטח"
+        const textElement = document.createElement("div");
+        textElement.innerText = "זוהה מרחק אסיר מחוץ לטווח השטח";
+        textElement.style.color = "#2F34B8"; // צבע כחול
+        textElement.style.fontSize = "14px"; // גודל טקסט קטן יותר
+        textElement.style.position = "absolute";
+        textElement.style.top = "120%"; // מזיז את הטקסט יותר למטה
+        textElement.style.left = "50%"; // למרכז את הטקסט
+        textElement.style.transform = "translateX(-50%)"; // למרכז את הטקסט בצורה מדויקת
+        textElement.style.fontFamily = "'Ploni ML v2 AAA', sans-serif"; // פונט ייחודי
+        textElement.style.whiteSpace = "nowrap"; // לשמור על הטקסט בשורה אחת
+        textElement.style.padding = "0"; // ללא ריפוד
+        textElement.style.margin = "0"; // ללא רווחים
+        textElement.style.display = "none"; // ברירת מחדל - הטקסט לא מוצג
+        textElement.style.fontWeight = "600"; // הופך את הטקסט ליותר בולט
+
+        // יצירת אלמנט האייקון שיופיע כשהעיגול בכתום
+        const iconElement = document.createElement("div");
+        iconElement.style.position = "absolute";
+        iconElement.style.bottom = "-30px"; // למקם את האייקון בתחתית העיגול
+        iconElement.style.left = "50%"; // למרכז את האייקון
+        iconElement.style.transform = "translateX(-50%)"; // למרכז את האייקון בצורה מדויקת
+        iconElement.style.width = "40px"; // רוחב האייקון
+        iconElement.style.height = "40px"; // גובה האייקון
+        iconElement.style.backgroundImage = "url('orange.png')"; // שים את שם האייקון שלך
+        iconElement.style.backgroundSize = "cover"; // למלא את הדיב בתמונה
+        iconElement.style.display = "none"; // ברירת מחדל - האייקון לא מוצג
+
+        innerCircle.appendChild(iconElement); // הוספת האייקון לעיגול
+
+        // יצירת אלמנט התמונה שתופיע רק כשהעיגול אדום
+        const imageElement = document.createElement("img");
+        imageElement.src = "help.png"; // שים את כתובת התמונה שלך כאן
+        imageElement.style.position = "absolute";
+        imageElement.style.bottom = "-131px"; // למקם את התמונה מתחת לאייקון
+        imageElement.style.left = "50%"; // למרכז את התמונה
+        imageElement.style.transform = "translateX(-50%)"; // למרכז את התמונה בצורה מדויקת
+        imageElement.style.width = "280px"; // רוחב התמונה
+        imageElement.style.height = "110px"; // גובה התמונה
+        imageElement.style.display = "none"; // ברירת מחדל - התמונה לא מוצגת
+
+        innerCircle.appendChild(imageElement); // הוספת התמונה לעיגול
+
+        // יצירת אלמנט האייקון שיתווסף בצד שמאל למעלה
+        const topLeftIcon = document.createElement("div");
+        topLeftIcon.style.position = "absolute";
+        topLeftIcon.style.top = "15px"; // למקם למעלה
+        topLeftIcon.style.left = "475px"; // למקם בצד שמאל
+        topLeftIcon.style.width = "10px"; // רוחב האייקון
+        topLeftIcon.style.height = "10px"; // גובה האייקון
+        topLeftIcon.style.backgroundImage = "url('Symbol.png')"; // שים את שם האייקון שלך
+        topLeftIcon.style.backgroundSize = "cover"; // למלא את הדיב בתמונה
+        topLeftIcon.style.display = "none"; // ברירת מחדל - האייקון לא מוצג
+
+        document.body.appendChild(topLeftIcon); // הוספת האייקון לדף
+
+        // מאזין לאירוע בלחיצה על התמונה help.png
+        imageElement.addEventListener("click", () => {
+            // יצירת אלמנט תמונה חדש בגודל 400x550
+            const largeImage = document.createElement("img");
+            largeImage.src = "click.png"; // תוכל להחליף בכתובת התמונה שברצונך להציג
+            largeImage.style.width = "400px"; // רוחב התמונה
+            largeImage.style.height = "550px"; // גובה התמונה
+            largeImage.style.position = "absolute";
+            largeImage.style.top = "50%"; // ממורכז על הציר האנכי
+            largeImage.style.left = "50%"; // ממורכז על הציר האופקי
+            largeImage.style.transform = "translate(-50%, -50%)"; // למרכז את התמונה בצורה מדויקת
+
+            // הסתרת כל שאר האלמנטים בדף
+            document.body.style.overflow = "hidden"; // מונע גלילה של הדף
+            const allElements = document.body.children; // כל האלמנטים בדף
+            for (let i = 0; i < allElements.length; i++) {
+                allElements[i].style.display = "none"; // הסתרת כל אלמנט
+            }
+            beepSound.pause(); // הפסקת השמעת הצפצוף
+
+            // הצגת התמונה הגדולה
+            document.body.appendChild(largeImage); // הוספת התמונה לדף
+
+        });
+
+        // פונקציה שתופעל בלחיצה על ה-WiFi Icon
+        wifiIcon.addEventListener("click", () => {
+            // מחביא את הפסים
+            lines.style.display = "none";
+            
+            // מוסיף את המספר 0.1 בתוך העיגול הפנימי
+            const number = document.createElement("span");
+            number.innerText = "0.1";
+            number.style.color = "#fff";
+            number.style.fontSize = "65px"; // הגדלנו את המספר ב-5px
+            number.style.fontWeight = "bold";
+            number.style.position = "absolute"; // למקם את המספר במרכז
+            number.style.top = "50%"; // למקם במרכז העיגול
+            number.style.left = "50%"; // למקם במרכז העיגול
+            number.style.transform = "translate(-50%, -50%)"; // למרכז את המספר בצורה מדויקת
+            number.style.fontFamily = "'Glegoo', serif"; // שימוש בפונט Glegoo
+            innerCircle.appendChild(number);
+
+            // מוסיף את המילה "מטר" מתחת למספר
+            const meter = document.createElement("span");
+            meter.innerText = "מטר";
+            meter.style.color = "#fff"; // צבע לבן
+            meter.style.fontSize = "24px"; // גודל קטן יותר מהמזה
+            meter.style.position = "absolute"; // למקם את המילה במרכז
+            meter.style.top = "80%"; // הזזנו את המילה "מטר" למטה עוד יותר
+            meter.style.left = "50%"; // למקם במרכז העיגול
+            meter.style.transform = "translate(-50%, -50%)"; // למרכז את המילה
+            meter.style.fontFamily = "'Rubik', sans-serif"; // שימוש בפונט Rubik
+            innerCircle.appendChild(meter);
+
+            // הסתרת האייקון
+            wifiIcon.style.display = "none";
+
+            // הצגת האייקון בצד שמאל למעלה
+            topLeftIcon.style.display = "block"; // הופעת האייקון בצד שמאל למעלה
+
+            // התחלה של מספרים וצביעת העיגול כחול
+            let currentValue = 0.1; // הערך ההתחלתי
+            const values = [0.1, 0.3, 0.5, 0.6, 0.8, 1]; // הערכים שעליהם נרצה להחליף
+            let index = 0; // אינדקס של הערך הנוכחי
+
+            // צבע העיגול כחול
+            outerCircle.style.background = "linear-gradient(180deg, #2F34B8 0%, #4449CC 100%)";
+            innerCircle.style.background = "#1A1E85";
+
+            // עדכון המספרים כל שנייה
+            const interval = setInterval(() => {
+                if (index < values.length) {
+                    currentValue = values[index];
+                    number.innerText = currentValue; // עדכון המספר
+                    index++;
+                } else {
+                    // לאחר שהגענו ל-1, נשנה את הצבעים
+                    outerCircle.style.background = "linear-gradient(180deg, #FF7327 0%, #FF8B59 100%)";
+                    innerCircle.style.background = "#EA641C";
+                    number.innerText = "1.1"; // מספר חדש בזמן שינוי לכתום
+
+                    // הצגת הטקסט מתחת לעיגול (רק אם העיגול כתום)
+                    textElement.style.display = "block"; // הופעת הטקסט
+                    innerCircle.appendChild(textElement); // הוספת הטקסט לעיגול
+
+                    // הצגת האייקון
+                    iconElement.style.display = "block"; // הופעת האייקון
+                    // נמשיך לעדכן את המספרים (0.1, 0.3, 0.4, 0.6, 0.9, 2)
+                    const secondValues = [1.1, 1.3, 1.4, 1.6, 1.9, 2];
+                    let secondIndex = 0;
+
+                    setTimeout(() => {
+                        number.innerText = secondValues[secondIndex++];
+                    }, 1000);
+                    setTimeout(() => {
+                        number.innerText = secondValues[secondIndex++];
+                    }, 2000);
+                    setTimeout(() => {
+                        number.innerText = secondValues[secondIndex++];
+                    }, 3000);
+                    setTimeout(() => {
+                        number.innerText = secondValues[secondIndex++];
+                    }, 4000);
+                    setTimeout(() => {
+                        number.innerText = secondValues[secondIndex++];
+                    }, 5000);
+
+                    // שינוי צבע לעיגול אדום
+                    setTimeout(() => {
+                        outerCircle.style.background = "linear-gradient(180deg, #C41212 0%, #F74949 100%)";
+                        innerCircle.style.background = "#AA0000";
+                        number.innerText = "2.1"; // שינויים גם במספר
+                        beepSound.play(); // הפעלת הצפצוף
+                        // שינוי האייקון לאייקון חדש
+                        iconElement.style.backgroundImage = "url('red.png')"; // שים את שם האייקון החדש שלך
+
+                        // הצגת התמונה כשהעיגול אדום
+                        imageElement.style.display = "block"; // הופעת התמונה
+
+                        // הסתרת הטקסט
+                        textElement.style.display = "none"; // הסתרת הטקסט כשהעיגול אדום
+
+                    }, 6000);
+
+                    clearInterval(interval); // סיום עדכון הערכים
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
