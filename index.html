@@ -98,7 +98,7 @@
         imageElement.addEventListener("click", () => {
             // יצירת אלמנט תמונה חדש בגודל 400x550
             const largeImage = document.createElement("img");
-            largeImage.src = "click.png"; // תוכל להחליף בכתובת התמונה שברצונך להציג
+            largeImage.src = "cherum.png"; // תוכל להחליף בכתובת התמונה שברצונך להציג
             largeImage.style.width = "400px"; // רוחב התמונה
             largeImage.style.height = "550px"; // גובה התמונה
             largeImage.style.position = "absolute";
@@ -121,6 +121,8 @@
 
         // פונקציה שתופעל בלחיצה על ה-WiFi Icon
         wifiIcon.addEventListener("click", () => {
+            document.querySelector('.tablet-container').style.backgroundImage = "url('offline.png')";
+
             // מחביא את הפסים
             lines.style.display = "none";
             
