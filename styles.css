@@ -12,7 +12,7 @@ body {
 .tablet-container {
     width: 400px;
     height: 550px;
-    background: url('Frame 1984078044 (3).png') no-repeat center center;
+    background: url('ofline.png') no-repeat center center;
     background-size: cover;
     display: flex;
     justify-content: center;
